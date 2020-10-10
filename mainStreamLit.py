@@ -49,7 +49,7 @@ if(selection == 'Tool'):
     
     df = pd.DataFrame.from_dict(graphDict)
     st.line_chart(df)
-    phasePlotDict = {"J":J, "I":I}
+    phasePlotDict = {"J":J, "I":I, "Time":t}
     phasePlotDf = pd.DataFrame.from_dict(phasePlotDict)
     num = int(64/3)
     colorsList1 = [(1., 0.8, 0.5-(x/2+0.)/num) for x in range(num)]
@@ -60,17 +60,12 @@ if(selection == 'Tool'):
     CustomCmap = ListedColormap(colorsList1)
     C = np.linspace(0, 1, t_end+1)
     cmap = CustomCmap
-    phasePlotDf = phasePlotDf.reset_index()
-    st.write(phasePlotDf)
-    phasePlotDf['color'] = phasePlotDf['index'].apply(cmap)
+#     st.write(phasePlotDf)
     
-
-    # Build a scatter chart using altair. I modified the example at
-    # https://altair-viz.github.io/gallery/scatter_tooltips.html
     scatter_chart = st.altair_chart(
         alt.Chart(phasePlotDf)
             .mark_circle(size=60)
-            .encode(x="J", y="I", color = 'index')
+            .encode(x="J", y="I", color = alt.Color('Time', scale=alt.Scale(scheme='reds')))
             .interactive()
     )   
         
