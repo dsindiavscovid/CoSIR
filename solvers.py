@@ -293,12 +293,13 @@ def solve_discrete_delayedSIR_LV_Control(init, gamma, N, timesteps, r, e, delta_
 
     num_repetitions = np.int(np.ceil(1/delta_t))
     num_points = num_repetitions*timesteps #1 day will have 1/delta_t timesteps
-    S, I, R, beta, Ws = np.zeros(num_points), np.zeros(num_points), np.zeros(num_points), np.zeros(num_points), np.zeros(num_points)
+    S, I, R, beta, Ws, Us = np.zeros(num_points), np.zeros(num_points), np.zeros(num_points), np.zeros(num_points), np.zeros(num_points), np.zeros(num_points)
 
     S[0], I[0], R[0], beta[0] = S0, I0, R0, beta0
     Wstar = gamma + r
     Istar = r/e
     Jstar = gamma*N
+    
     for t in range(num_points-1):
         W = compute_w(beta[t], S[t], I[t], gamma, N, r, e)
         Ws[t] = W
@@ -313,7 +314,9 @@ def solve_discrete_delayedSIR_LV_Control(init, gamma, N, timesteps, r, e, delta_
             xprime = beta[t-tauIdx]*S[t-tauIdx]/Jstar
             u = -eta*(W - Wstar)*(x-1) - r*(y-1)*(xprime*yprime - x*y)/(x*y-y)
             rate_incomingI = beta[t - tauIdx]*S[t - tauIdx]*I[t - tauIdx]/N
-#         print(u)
+            print(f't:{t}, u: {u}, x: {x}, y:{y}, beta:{beta[t]}, W: {Ws[t]}, denom:{(x*y-y)}')
+            
+        Us[t] = u
         rate_s2i = beta[t]*S[t]*I[t]/N 
         rate_i2r = gamma*I[t]          
         rate_beta = r*beta[t] - e*beta[t]*I[t] + (beta[t]**2)*I[t]/N + beta[t]*u
@@ -325,9 +328,10 @@ def solve_discrete_delayedSIR_LV_Control(init, gamma, N, timesteps, r, e, delta_
         R[t+1] = R[t] + delta_t*(rate_i2r)
             
     # Pick the elements based on days as time-steps
-    S = S[::num_repetitions]
-    I = I[::num_repetitions]
-    R = R[::num_repetitions]
-    beta = beta[::num_repetitions]
-    Ws = Ws[::num_repetitions]
-    return S, I, R, beta, Ws
+#     S = S[::num_repetitions]
+#     I = I[::num_repetitions]
+#     R = R[::num_repetitions]
+#     beta = beta[::num_repetitions]
+#     Ws = Ws[::num_repetitions]
+#     Us = Us[::num_repetitions]
+    return S, I, R, beta, Ws, Us

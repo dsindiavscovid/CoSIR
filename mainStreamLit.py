@@ -49,23 +49,16 @@ if(selection == 'Tool'):
     
     df = pd.DataFrame.from_dict(graphDict)
     st.line_chart(df)
-    phasePlotDict = {"J":J, "I":I, "Time":t}
+    Istar = (r/e)
+    Jstar = gamma*N
+    phasePlotDict = {"J / JStar":J/Jstar, "I / Istar":I/Istar, "Time":t}
     phasePlotDf = pd.DataFrame.from_dict(phasePlotDict)
-    num = int(64/3)
-    colorsList1 = [(1., 0.8, 0.5-(x/2+0.)/num) for x in range(num)]
-    colorsList2 = [(1., 0.8-0.8*(x+0.)/num, 0) for x in range(num)]
-    colorsList3 = [(1.-(x/2+0.)/num, 0, 0) for x in range(num)]
-    colorsList1.extend(colorsList2)
-    colorsList1.extend(colorsList3)
-    CustomCmap = ListedColormap(colorsList1)
-    C = np.linspace(0, 1, t_end+1)
-    cmap = CustomCmap
-#     st.write(phasePlotDf)
+    
     
     scatter_chart = st.altair_chart(
         alt.Chart(phasePlotDf)
             .mark_circle(size=60)
-            .encode(x="J", y="I", color = alt.Color('Time', scale=alt.Scale(scheme='reds')))
+            .encode(x="J / JStar", y="I / Istar", color = alt.Color('Time', scale=alt.Scale(scheme='reds')))
             .interactive()
     )   
         
