@@ -4,6 +4,8 @@ import streamlit as st
 
 from solvers import *
 
+# SIDEBAR
+
 st.sidebar.markdown('Parameters')
 gamma = float(st.sidebar.slider('gamma', 0., 1., 0.1))
 beta0 = float(st.sidebar.slider('beta0', 0., 5., 0.3))
@@ -25,13 +27,15 @@ else:
 
 st.header('CoSIR')
 
-# PLOT OF S-I-J-R-beta
+# System evolution plot
 st.markdown('Select variables')
 var_plot_components = {
     'variables': ['S', 'I', 'R', 'J', 'beta'],
     'defaults': [True, True, True, True, False],
-    'key': [None] * 5
+    'key': [None] * 5,
+    'colors': ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd']
 }
+
 var_cols = st.beta_columns(5)
 to_plot = dict()
 for i in range(5):
@@ -48,9 +52,28 @@ for v in to_plot:
         graphDict[v] = variableValues[v]
 
 df = pd.DataFrame.from_dict(graphDict)
+df = df.stack().reset_index()
+df.columns = ['time', 'variable', 'value']
+
 st.markdown('### System Evolution')
-st.line_chart(df)
-Istar = (r / e)
+sys_evol_chart = alt.Chart(df).mark_line().encode(
+    x='time',
+    y='value',
+    color=alt.Color('variable',
+                    scale=alt.Scale(
+                        domain=var_plot_components['variables'],
+                        range=var_plot_components['colors'])
+                    ),
+    tooltip=alt.Tooltip('value:Q')
+).properties(
+    width=700,
+    height=400
+)
+st.altair_chart(sys_evol_chart)
+
+# Phase plot
+
+Istar = r / e
 Jstar = gamma * N
 phasePlotDict = {"J / JStar": J / Jstar, "I / Istar": I / Istar, "Time": t}
 phasePlotDf = pd.DataFrame.from_dict(phasePlotDict)
