@@ -31,6 +31,7 @@ st.header('CoSIR')
 st.markdown('Select variables')
 var_plot_components = {
     'variables': ['S', 'I', 'R', 'J', 'beta'],
+    'labels': ['Susceptible', 'Infectious', 'Removed', 'Susceptible contacts', 'Transmission rate'],
     'defaults': [True, True, True, True, False],
     'key': [None] * 5,
     'colors': ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd']
@@ -39,7 +40,7 @@ var_plot_components = {
 var_cols = st.beta_columns(5)
 to_plot = dict()
 for i in range(5):
-    to_plot[var_plot_components['variables'][i]] = var_cols[i].checkbox(var_plot_components['variables'][i],
+    to_plot[var_plot_components['variables'][i]] = var_cols[i].checkbox(var_plot_components['labels'][i],
                                                                         value=var_plot_components['defaults'][i],
                                                                         key=var_plot_components['key'][i])
 
