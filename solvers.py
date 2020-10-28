@@ -289,7 +289,7 @@ def solve_discrete_delayedSIR_LV_Control(init, gamma, N, timesteps, r, e, delta_
     """
     S0, I0, R0, beta0 = init
     tauIdx = int(tau/delta_t)
-
+    epsilon = 1e-4
 
     num_repetitions = np.int(np.ceil(1/delta_t))
     num_points = num_repetitions*timesteps #1 day will have 1/delta_t timesteps
@@ -312,9 +312,12 @@ def solve_discrete_delayedSIR_LV_Control(init, gamma, N, timesteps, r, e, delta_
             x = beta[t]*S[t]/Jstar
             yprime = I[t-tauIdx]/Istar
             xprime = beta[t-tauIdx]*S[t-tauIdx]/Jstar
-            u = -eta*(W - Wstar)*(x-1) - r*(y-1)*(xprime*yprime - x*y)/(x*y-y)
+            if(np.abs(x-1)<epsilon):
+                u = 0
+            else:
+                u = -eta*(W - Wstar)*(x-1) - r*(y-1)*(xprime*yprime - x*y)/(x*y-y)
             rate_incomingI = beta[t - tauIdx]*S[t - tauIdx]*I[t - tauIdx]/N
-            print(f't:{t}, u: {u}, x: {x}, y:{y}, beta:{beta[t]}, W: {Ws[t]}, denom:{(x*y-y)}')
+#             print(f't:{t}, u: {u}, x: {x}, y:{y}, beta:{beta[t]}, W: {Ws[t]}, denom:{(x*y-y)}')
             
         Us[t] = u
         rate_s2i = beta[t]*S[t]*I[t]/N 
