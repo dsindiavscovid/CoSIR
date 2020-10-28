@@ -338,3 +338,66 @@ def solve_discrete_delayedSIR_LV_Control(init, gamma, N, timesteps, r, e, delta_
 #     Ws = Ws[::num_repetitions]
 #     Us = Us[::num_repetitions]
     return S, I, R, beta, Ws, Us
+
+def solve_discrete_sir_jump(init, beta, gamma, N, timesteps, spikes, delta_t=0.001):
+    """
+    Discrete version of SIR model.
+
+    init : Initial conditions
+    beta : Sequence of beta values (constant or array)
+    gamma : Gamma parameter of SIR model
+    timesteps : Number of timesteps to consider (in units of days)
+    delta_t : Spacing between points in the discretised version
+    """
+    S0, I0, R0 = init
+
+    #Checks on beta
+    if isinstance(beta, np.ndarray):
+        assert beta.shape[0] == timesteps
+    elif isinstance(beta, float):
+        beta = np.repeat(beta, timesteps)
+    else:
+       print(type(beta))
+       raise ValueError('Incorrect argument to beta parameter') 
+
+    num_repetitions = np.int(np.ceil(1/delta_t))
+    num_points = num_repetitions*timesteps #1 day will have 1/delta_t timesteps
+    tspikeIdxs = [spike[0] * num_repetitions for spike in spikes]
+    print(spikes)
+    S, I, R = np.zeros(num_points), np.zeros(num_points), np.zeros(num_points)
+
+    S[0], I[0], R[0] = S0, I0, R0
+
+    # Replicate the same beta across the timesteps introduced
+    # between days
+    beta = np.repeat(beta, num_repetitions)
+    spikesDone = 0
+    for t in range(num_points-1):
+        rate_s2i = beta[t]*S[t]*I[t]/N # beta*S*I/N
+        rate_i2r = gamma*I[t]          # gamma*I
+
+        #dSdt = -beta*S*I/N
+        S[t+1] = S[t] + delta_t*(-rate_s2i)
+
+        #dIdt = beta*S*I/N - gamma*I
+        I[t+1] = I[t] + delta_t*(rate_s2i - rate_i2r)
+        if(spikesDone< len(spikes) and t == tspikeIdxs[spikesDone]):
+            I[t+1] = I[t+1] + spikes[spikesDone][1]
+            print("At {} I goes up by {}".format(t/num_repetitions, spikes[spikesDone][1]))
+            if(spikes[spikesDone][1] > 0):
+                S[t+1] = S[t+1] - spikes[spikesDone][1]
+                print("At {} S goes down by {}".format(t/num_repetitions, spikes[spikesDone][1]))
+            else:
+                R[t+1] = R[t+1] - spikes[spikesDone][1]
+                print("At {} R goes down by {}".format(t/num_repetitions, spikes[spikesDone][1]))
+            spikesDone += 1
+
+        #dRdt = gamma*I
+        R[t+1] = R[t] + delta_t*(rate_i2r)
+
+    # Pick the elements based on days as time-steps
+    S = S[::num_repetitions]
+    I = I[::num_repetitions]
+    R = R[::num_repetitions]
+
+    return S, I, R
