@@ -359,7 +359,6 @@ def solve_discrete_sir_jump(init, beta, gamma, N, timesteps, spikes, delta_t=0.0
     else:
        print(type(beta))
        raise ValueError('Incorrect argument to beta parameter') 
-
     num_repetitions = np.int(np.ceil(1/delta_t))
     num_points = num_repetitions*timesteps #1 day will have 1/delta_t timesteps
     tspikeIdxs = [spike[0] * num_repetitions for spike in spikes]
@@ -371,6 +370,7 @@ def solve_discrete_sir_jump(init, beta, gamma, N, timesteps, spikes, delta_t=0.0
     # Replicate the same beta across the timesteps introduced
     # between days
     beta = np.repeat(beta, num_repetitions)
+    
     spikesDone = 0
     for t in range(num_points-1):
         rate_s2i = beta[t]*S[t]*I[t]/N # beta*S*I/N
@@ -401,3 +401,60 @@ def solve_discrete_sir_jump(init, beta, gamma, N, timesteps, spikes, delta_t=0.0
     R = R[::num_repetitions]
 
     return S, I, R
+
+
+def solve_discrete_SEIHR(init, beta, gamma, sigma, epsilon, N, timesteps, delta_t=0.001):
+    """
+        Discrete version of SIR model.
+
+        init : Initial conditions
+        beta : Sequence of beta values (constant or array)
+        gamma : Gamma parameter of SIR model
+        timesteps : Number of timesteps to consider (in units of days)
+        delta_t : Spacing between points in the discretised version
+    """
+    S0, E0, I0, H0, R0 = init
+    #Checks on beta
+    if isinstance(beta, np.ndarray):
+        assert beta.shape[0] == timesteps
+    elif isinstance(beta, float):
+        beta = np.repeat(beta, timesteps)
+    else:
+       raise ValueError('Incorrect argument to beta parameter') 
+
+    num_repetitions = np.int(np.ceil(1/delta_t))
+    num_points = num_repetitions*timesteps #1 day will have 1/delta_t timesteps
+    S, E, I, H, R = np.zeros(num_points), np.zeros(num_points), np.zeros(num_points), np.zeros(num_points), np.zeros(num_points)
+
+    S[0], E[0], I[0], H[0],R[0] = S0, E0, I0, H0, R0
+
+    # Replicate the same beta across the timesteps introduced
+    # between days
+    beta = np.repeat(beta, num_repetitions)
+
+    for t in range(num_points-1):
+        rate_s2e = beta[t]*S[t]*I[t]/N # beta*S*I/N
+        rate_e2i = sigma*E[t]
+        rate_i2h = gamma*I[t]
+        rate_h2r = epsilon*H[t]
+
+        #dSdt = -beta*S*I/N
+        S[t+1] = S[t] + delta_t*(-rate_s2e)
+        
+        E[t+1] = E[t] + delta_t*(rate_s2e  - rate_e2i)
+
+        I[t+1] = I[t] + delta_t*(rate_e2i - rate_i2h)
+        
+        H[t+1] = H[t] + delta_t*(rate_i2h - rate_h2r)
+
+        #dRdt = gamma*I
+        R[t+1] = R[t] + delta_t*(rate_h2r)
+
+    # Pick the elements based on days as time-steps
+    S = S[::num_repetitions]
+    E = E[::num_repetitions]
+    I = I[::num_repetitions]
+    H = H[::num_repetitions]
+    R = R[::num_repetitions]
+
+    return S, E, I, H, R
