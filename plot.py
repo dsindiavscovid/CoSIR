@@ -463,5 +463,46 @@ def plot_SIR_dSIR_SEIR(t, S_SIR, S_delayedSIR, S_SEIR, I_SIR, I_delayedSIR, I_SE
     plt.savefig(fig_name)
     
     
+def plot_S_I_beta(S, I, beta, t, plt_title, spikes = None, fig_name='S-I-beta-plot.png'):
+    fig, axes = plt.subplots(3, 1, figsize=(9, 7), sharex=True, sharey=False)
+    markers = ['-', '-', '-', '-']  # ['-', '-.', ':']
+    colors = [('r', 0.9), ('g', 0.9), ('b', 0.6), ('orange', 0.9)]
+    for i, key in enumerate(S.keys()):
+        axes[0].plot(t, S[key], markers[i], color=colors[i][0], alpha=colors[i][1], lw=2.5, label=key)
+        axes[1].plot(t, I[key], markers[i], color=colors[i][0], alpha=colors[i][1], lw=2.5)
+        axes[2].plot(t, beta[key], markers[i], color=colors[i][0], alpha=colors[i][1], lw=2.5, label=key)
+    axes[0].legend(fontsize = 18, frameon = False)
+#     axes[2].set_title(r'Transmission rate ($\beta$)', fontsize = 14)
+    axes[2].set_xlabel('Time (days)', fontsize = 18)
+    axes[2].set_ylim(0.0, 1.1)
+    axes[1].axhline(y = 150000, linestyle = '--', lw = 2, color = 'black', alpha = 0.5, label = r"$I^{target}_{avg}$")
+    axes[1].legend(fontsize = 18, loc = 'upper right', numpoints = 2, frameon=False)
+    axes[0].set_ylabel('S', fontsize = 18, rotation = 0, labelpad = 15, weight = 'bold')
+    axes[1].set_ylabel('I', fontsize = 18, rotation = 0, labelpad = 30, weight = 'bold')
+    axes[2].set_ylabel(r'$\beta$', fontsize = 18, rotation = 0, labelpad = 15, weight = 'bold')
+#     axes[0].set_title('Susceptible (S)', fontsize = 14)
+#     axes[1].set_title('Infectious (I)', fontsize = 14)
+    axes[1].ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+    axes[0].ticklabel_format(style='sci')
+    axes[2].ticklabel_format(style='plain')
+    axes[1].tick_params(axis="y", labelsize=18)
+    axes[0].tick_params(axis="y", labelsize=18)
+    axes[2].tick_params(axis="y", labelsize=18)
+    for ax in axes:
+        ax.grid(linestyle='dashdot', linewidth=0.5)
+#     handles, labels = axes[2].get_legend_handles_labels()
+#     fig.legend(handles, labels, loc='upper left')
+#     fig.tight_layout()
+    if(spikes):
+        for t, s in spikes:
+            axes[0].axvline(x = t, linestyle = '--', lw = 1, color = 'black', alpha = 0.5)
+            axes[1].axvline(x = t, linestyle = '--', lw = 1, color = 'black', alpha = 0.5)
+            axes[2].axvline(x = t, linestyle = '--', lw = 1, color = 'black', alpha = 0.5)
+#     plt.title(plt_title)
+    axes[1].annotate(r"$\uparrow$", (spikes[0][0], 4e+5), fontsize = 18)
+    axes[1].annotate(r"$\downarrow$" , (spikes[1][0], 4e+5), fontsize = 18)
+#     axes[1].annotate(r"$I^{target}_{avg}$" , (180, 2e+5), fontsize = 18)
+    plt.xticks(fontsize=18)
+    plt.savefig(fig_name)
     
     
