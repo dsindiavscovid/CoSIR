@@ -8,16 +8,16 @@ The code for our paper **CoSIR: Managing an Epidemic via Optimal AdaptiveControl
 [Nayana Bannur](https://www.linkedin.com/in/nayana-bannur/), <br/>
 [Srujana Merugu](https://www.linkedin.com/in/srujana-merugu-a7243819/).
 
-__Contact__: xuebin[at]ualberta[dot]ca
+
 ## Proposed Method
-![Sample Results: Kids](figures/cosir.png)
+![Proposed method](figures/cosir.png)
 
 ### Code description
-1. models.py contains the epidemilogical model equations
-2. solvers.py contains discrete and continuous solvers for the epidemilogical given inital conditions
-3. plots.py contains the scripts to create plots presented in the paper
-4. createPlots.ipynb is a wrapper notebook and contains the parameters used to generate plots
-5. baselines.ipynb evaluates CoSIR against other baselines.
+1. *models.py*: The epidemilogical model equations
+2. *solvers.py*: Discrete and continuous solvers for the epidemilogical given inital conditions
+3. *plots.py*: The scripts to create plots presented in the paper
+4. *createPlots.ipynb*: Wrapper notebook and contains the parameters used to generate plots
+5. *baselines.ipynb*: Evaluates CoSIR against other baselines.
 
 ### Clone this repository
 ```
@@ -32,6 +32,8 @@ git clone https://github.com/dsindiavscovid/sir-control.git
 streamlit run mainStreamLit.py 
 ```
 3. Use the dynamic interface to see the plots for different parameter settings
+
+![streamlit app screenshot](figures/streamlit.png)
 
 
 ## Citation
