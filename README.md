@@ -21,7 +21,7 @@ The code for our paper **CoSIR: Managing an Epidemic via Optimal AdaptiveControl
 git clone https://github.com/dsindiavscovid/sir-control.git
 ```
 
-## SteamLit Applications
+## SteamLit Application
 
 1. Install Streamlit, version 0.67.1
 2. Run streamlit on your local machine using the following command:
