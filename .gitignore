@@ -4,5 +4,5 @@
 *.idea/
 *.DS_Store
 
-./plotsFinal/*
-plotsFinal
+./plots/*
+plots
