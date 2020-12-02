@@ -1,7 +1,7 @@
 # CoSIR: Managing an Epidemic via Optimal AdaptiveControl of Transmission Policy
 
-The code for our paper **CoSIR: Managing an Epidemic via Optimal AdaptiveControl of Transmission Policy**
-## [CoSIR: Managing an Epidemic via Optimal AdaptiveControl of Transmission Policy](https://www.medrxiv.org/content/10.1101/2020.11.10.20211995v1.full.pdf)
+The code for our paper **CoSIR: Managing an Epidemic via Optimal Adaptive Control of Transmission Policy**
+## [CoSIR: Managing an Epidemic via Optimal Adaptive Control of Transmission Policy](https://www.medrxiv.org/content/10.1101/2020.11.10.20211995v1.full.pdf)
 
 [Harsh Maheshwari](https://harshm121.github.io), [Shreyas Shetty](https://in.linkedin.com/in/shreyasshetty), [Nayana Bannur](https://www.linkedin.com/in/nayana-bannur/) and [Srujana Merugu](https://www.linkedin.com/in/srujana-merugu-a7243819/).
 
