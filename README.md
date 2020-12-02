@@ -23,7 +23,7 @@ git clone https://github.com/dsindiavscovid/sir-control.git
 
 ## SteamLit Application
 
-1. Install Streamlit, version 0.67.1
+1. Install Streamlit, version 0.68.1
 2. Run streamlit on your local machine using the following command:
 ```
 streamlit run mainStreamLit.py 
