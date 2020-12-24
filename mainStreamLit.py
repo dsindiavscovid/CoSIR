@@ -6,7 +6,7 @@ from solvers import *
 
 # SIDEBAR
 
-st.beta_set_page_config(page_title='CoSIR')
+st.set_page_config(page_title='CoSIR')
 st.sidebar.markdown('Parameters')
 gamma = float(st.sidebar.slider('gamma', 0., 1., 0.1))
 beta0 = float(st.sidebar.slider('beta0', 0., 5., 0.3))
