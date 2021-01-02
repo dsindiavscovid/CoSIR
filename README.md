@@ -10,7 +10,7 @@ The code for our paper **CoSIR: Managing an Epidemic via Optimal Adaptive Contro
 ![Proposed method](figures/cosir.png)
 
 ## Web Application for CoSIR
-![Link](http://cosir.herokuapp.com/)
+[Link](http://cosir.herokuapp.com/)
 
 ### Code description
 1. *models.py*: The epidemilogical model equations
