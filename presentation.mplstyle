@@ -1,6 +1,7 @@
-axes.labelsize : 23
+axes.labelsize : 28
 lines.linewidth : 3
-legend.fontsize : 20
-xtick.labelsize : 23
-ytick.labelsize : 23
+legend.fontsize : 26
+xtick.labelsize : 28
+ytick.labelsize : 28
 font.weight : bold
+font.size: 30

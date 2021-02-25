@@ -18,7 +18,7 @@ CLR_X = CLR_J
 CLR_Y = CLR_I
 CLR_beta = 'purple'
 
-font = {'family':'serif','size':16}
+font = {'family':'serif','size':28}
 plt.rc('font',**font)
 
 def getTimePeriodV2(series):
@@ -83,12 +83,12 @@ def plot_sir_lv(S, I, R, J, t,
     ax.plot(t, J, color = CLR_J, label='Beta*Susceptible (J)')
     ax.plot(t, I, color = CLR_I, label='Infectious (I)')
     ax.plot(t, R, color = CLR_R, label='Removed (R)')
-    ax.tick_params(axis="y", labelsize=20)
-    ax.tick_params(axis="x", labelsize=20)
-    ax.set_xlabel('Time', fontsize = 20, weight = 'bold')
-    ax.set_ylabel('Case counts', fontsize = 20, weight = 'bold')
+    ax.tick_params(axis="y", labelsize=28)
+    ax.tick_params(axis="x", labelsize=28)
+    ax.set_xlabel('Time', fontsize = 28, weight = 'bold')
+    ax.set_ylabel('Case counts', fontsize = 28, weight = 'bold')
 #     ax.grid(linestyle='dashdot', linewidth=0.5)
-    legend = ax.legend(loc='upper right', fontsize = 20, prop={'weight': 'bold'})
+#     legend = ax.legend(loc='upper right', fontsize = 20, prop={'weight': 'bold'})
     fig.tight_layout()
     plt.title(plt_title)
     plt.savefig(fig_name)
@@ -119,14 +119,14 @@ def plot_sir_lv_withBeta(S, I, R, J, beta, t,
     ax1.plot(t, J, color = CLR_J, label='Beta*Susceptible (J)')
     ax1.plot(t, I, color = CLR_I, label='Infectious (I)')
     ax1.plot(t, R, color = CLR_R, label='Removed (R)')
-    ax1.tick_params(axis='y', labelcolor='black', labelsize=20)
+    ax1.tick_params(axis='y', labelcolor='black', labelsize=28)
 #     ax1.grid(linestyle='dashdot', linewidth=0.5)
     ax2 = ax1.twinx()
     ax2.set_ylabel(r'Transmission rate ($\beta$)', color=CLR_beta, weight = 'bold')  
     ax2.plot(t, beta, color=CLR_beta, label = r'Transmission rate ($\beta$)',)
     ax2.tick_params(axis='y', labelcolor=CLR_beta)
     handles, labels = [(a + b) for a, b in zip(ax1.get_legend_handles_labels(), ax2.get_legend_handles_labels())]
-    plt.legend(handles, labels, loc= 'upper right')
+#     plt.legend(handles, labels, loc= 'upper left')
     fig.tight_layout()
     plt.title(plt_title, pad=20)
     plt.savefig(fig_name)
@@ -180,7 +180,7 @@ def plot_sir_lv_oneCycle(S, I, R, betaS, beta, t, NEWS, Tperiod, fig_name):
     ax1.tick_params(axis='x', labelcolor='black')
     ax1.set_xlim(start-1, stop+2)
     ax2 = ax1.twinx()
-    ax2.set_ylabel(r'Transmission rate ($\beta$)', color=CLR_beta)  
+    ax2.set_ylabel(r'Transmission rate ($\beta$)', color=CLR_beta, weight='bold')  
     ax2.plot(t[start:stop], beta[start:stop], color=CLR_beta, label = r'Transmission rate ($\beta$)')
     ax2.set_ylim(0.0, 0.8)
     ax2.tick_params(axis='y', labelcolor=CLR_beta)
@@ -190,14 +190,14 @@ def plot_sir_lv_oneCycle(S, I, R, betaS, beta, t, NEWS, Tperiod, fig_name):
     ax1.axvline(x=north, color = 'black',  linestyle='--')
     ax1.axvline(x=south, color = 'black',  linestyle='--')
     ax1.axvline(x=east, color = 'black', linestyle='--')
-    ax1.annotate("North", (north+0.3, 0.75*1e+7))
-    ax1.annotate("South", (south+0.3, 0.75*1e+7))
-    ax1.annotate("East", (east+0.3, 0.75*1e+7))
-    ax1.annotate("West", (west+0.3, 0.75*1e+7))
-    ax1.annotate("West", (west1+0.3, 0.75*1e+7))
-    plt.xticks(fontsize = 18)
+    ax1.annotate("North", (north+0.3, 0.75*1e+7), fontsize=24)
+    ax1.annotate("South", (south+0.3, 0.75*1e+7), fontsize=24)
+    ax1.annotate("East", (east+0.3, 0.75*1e+7), fontsize=24)
+    ax1.annotate("West", (west+0.3, 0.75*1e+7), fontsize=24)
+    ax1.annotate("West", (west1+0.3, 0.75*1e+7), fontsize=24)
+    plt.xticks(fontsize = 28)
     handles, labels = [(a + b) for a, b in zip(ax1.get_legend_handles_labels(), ax2.get_legend_handles_labels())]
-    plt.legend(handles, labels, loc = (0.04, 0.65), fontsize = 16)
+#     plt.legend(handles, labels, loc = (0.04, 0.65), fontsize = 18)
     fig.tight_layout()
     plt.savefig(fig_name)
 
@@ -248,8 +248,8 @@ def plot_limit_cycle_color_gradient(X, Y, plt_title, xlabel, ylabel, fig_name, x
     else:
         plt.plot(1, 1, 'x', markersize = 8, c = 'black')
     
-    plt.annotate("Equilibrium \n (1, 1)", (1, 1), xytext = (0.95, 0.9), fontsize = 16)
-    plt.xlabel("                            " + xlabel+"                    Time", weight = 'bold')
+    plt.annotate("Equilibrium \n (1, 1)", (1, 1), xytext = (0.95, 0.94), fontsize = 16)
+    plt.xlabel("                           " + xlabel+"        Time", weight = 'bold')
     plt.ylabel(ylabel, weight = 'bold')
 #     plt.xticks()
 #     plt.yticks()
@@ -257,7 +257,7 @@ def plot_limit_cycle_color_gradient(X, Y, plt_title, xlabel, ylabel, fig_name, x
     color = plt.colorbar(ScalarMappable(norm = norm, cmap=CustomCmap))
 #     color.set_label("Time", position = (-10000, -0.03), size=18, weight = 'bold', rotation = 0)
 #     color.ax.set_ylabel("Time", loc= 'bottom')
-    color.ax.tick_params(labelsize=18)
+    color.ax.tick_params(labelsize=28)
     plt.title(plt_title)
     plt.savefig(fig_name)
     
@@ -272,7 +272,7 @@ def plot_single_limit_cycle_color_gradient(X, Y, startCycle, Tperiod, factor, NE
     C = np.linspace(0, 1, Tperiod)
     cmap = CustomCmap#plt.get_cmap('white')
     # the simplest way of doing this is to just do the following:
-    plt.figure(figsize = (10, 8))
+    plt.figure(figsize = (12,9.6))
     plt.grid(linestyle='dashdot', linewidth=0.5)
     plt.yscale(xyscale)
     plt.xscale(xyscale)
@@ -294,15 +294,15 @@ def plot_single_limit_cycle_color_gradient(X, Y, startCycle, Tperiod, factor, NE
     plt.annotate("East", (X[east], Y[east]), xytext = (X[east]-0.2, Y[east] - 0.004))
 
     plt.plot(1, 1, 'x', markersize = 8, c = 'black')
-    plt.annotate("Equilibrium \n (1, 1)", (1, 1), xytext = (0.95, 0.82), fontsize = 16)
-    plt.xlabel("                            " + xlabel+"                    Time", weight = 'bold')
-    plt.ylabel(ylabel, weight = 'bold')
+    plt.annotate("Equilibrium \n (1, 1)", (1, 1), xytext = (0.95, 0.82), fontsize = 20)
+    plt.xlabel("                         " + xlabel+"    Time", weight = 'bold', fontsize=34.5)
+    plt.ylabel(ylabel, weight = 'bold', fontsize=34.5)
 #     plt.xticks(fontsize = 18)
 #     plt.yticks(fontsize = 18)
     norm = plt.Normalize(west/factor, (west+Tperiod)/factor)
     color = plt.colorbar(ScalarMappable(norm = norm, cmap=CustomCmap))
 #     color.set_label("Time", size=16)
-    color.ax.tick_params(labelsize=18)
+    color.ax.tick_params(labelsize=34.5)
     plt.savefig(fig_name)
     plt.savefig(fig_name)
 
@@ -318,16 +318,16 @@ def plot_beta_I(beta, I, t, Ilim, betalim, Istar,
     factor = len(beta)/t[-1]
     
     
-    fig, ax1 = plt.subplots(figsize = (10, 8))
+    fig, ax1 = plt.subplots(figsize = (12, 9.6))
     
-    ax1.set_xlabel('Time', weight= 'bold')
-    ax1.tick_params(axis='x', labelsize = 16)
-    ax1.set_ylabel('Infectious (I)', color=CLR_I, weight = 'bold')
+    ax1.set_xlabel('Time', weight= 'bold', fontsize=33)
+    ax1.tick_params(axis='x', labelsize = 33)
+    ax1.set_ylabel('Infectious (I)', color=CLR_I, weight = 'bold', fontsize=33)
     ax1.axhline(y = Istar, color = CLR_I, ls = '--', lw = 2)
     ax1.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
     ax1.plot(t, I, color=CLR_I)
-    ax1.tick_params(axis='y', labelcolor=CLR_I, labelsize = 20)
-    ax1.tick_params(axis='x',  labelsize = 20)
+    ax1.tick_params(axis='y', labelcolor=CLR_I, labelsize = 33)
+    ax1.tick_params(axis='x',  labelsize = 33)
     if(Ilim != None):
         ax1.set_ylim(Ilim[0], Ilim[1])
 #     ax1.grid(linestyle='dashdot', linewidth=0.5)
@@ -347,7 +347,7 @@ def plot_beta_I(beta, I, t, Ilim, betalim, Istar,
         ax2.plot(Ts, betaMean, color=CLR_beta, linestyle = '--', linewidth = 2)
     if(betalim != None):
         ax2.set_ylim(betalim[0], betalim[1])
-    ax2.tick_params(axis='y', labelcolor=CLR_beta, labelsize = 20)
+    ax2.tick_params(axis='y', labelcolor=CLR_beta, labelsize = 33)
 #     ax2.grid()
     
     fig.tight_layout()
@@ -388,29 +388,29 @@ def plot_beta_I_oneCycle(beta, I, t, NEWS, Tperiod, fig_name):
     plt.savefig(fig_name)
 
 
-def plot_S_I_beta(S, I, beta, t, plt_title, fig_name='S-I-beta-plot.png'):
-    fig, axes = plt.subplots(3, 1, figsize=(9, 6), sharex=True, sharey=False)
-    markers = ['-', '-', '-']  # ['-', '-.', ':']
-    colors = ['r', 'g', 'b']
-    for i, key in enumerate(S.keys()):
-        axes[0].plot(t, S[key], markers[i], color=colors[i], alpha=0.5, lw=2, label=key)
-        axes[1].plot(t, I[key], markers[i], color=colors[i], alpha=0.5, lw=2, label=key)
-        axes[2].plot(t, beta[key], markers[i], color=colors[i], alpha=0.5, lw=2, label=key)
-    axes[2].set_xlabel('Time')
-    axes[0].set_ylabel('Case counts')
-    axes[1].set_ylabel('Case counts')
-    axes[2].set_ylabel('Values', labelpad=30)
-    axes[0].set_title('Susceptible')
-    axes[1].set_title('Infectious')
-    axes[2].set_title('Beta')
-    axes[0].ticklabel_format(style='plain')
-    for ax in axes:
-        ax.grid(linestyle='dashdot', linewidth=0.5)
-    handles, labels = axes[2].get_legend_handles_labels()
-    fig.legend(handles, labels, loc='center right')
-    fig.tight_layout()
-    plt.title(plt_title)
-    plt.savefig(fig_name)
+# def plot_S_I_beta(S, I, beta, t, plt_title, fig_name='S-I-beta-plot.png'):
+#     fig, axes = plt.subplots(3, 1, figsize=(9, 6), sharex=True, sharey=False)
+#     markers = ['-', '-', '-']  # ['-', '-.', ':']
+#     colors = ['b', 'g', 'r']
+#     for i, key in enumerate(S.keys()):
+#         axes[0].plot(t, S[key], markers[i], color=colors[i], alpha=0.5, lw=2, label=key)
+#         axes[1].plot(t, I[key], markers[i], color=colors[i], alpha=0.5, lw=2, label=key)
+#         axes[2].plot(t, beta[key], markers[i], color=colors[i], alpha=0.5, lw=2, label=key)
+#     axes[2].set_xlabel('Time')
+#     axes[0].set_ylabel('Case counts')
+#     axes[1].set_ylabel('Case counts')
+#     axes[2].set_ylabel('Values', labelpad=30)
+#     axes[0].set_title('Susceptible')
+#     axes[1].set_title('Infectious')
+#     axes[2].set_title('Beta')
+#     axes[0].ticklabel_format(style='plain')
+#     for ax in axes:
+#         ax.grid(linestyle='dashdot', linewidth=0.5)
+#     handles, labels = axes[2].get_legend_handles_labels()
+#     fig.legend(handles, labels, loc='center right')
+#     fig.tight_layout()
+#     plt.title(plt_title)
+#     plt.savefig(fig_name)
 
 def plot_case_counts_line(regions):
     data = pd.read_csv('/Users/nayana/projects/covid/SEIRControl/data/case_counts.csv')
@@ -466,28 +466,28 @@ def plot_SIR_dSIR_SEIR(t, S_SIR, S_delayedSIR, S_SEIR, I_SIR, I_delayedSIR, I_SE
 def plot_S_I_beta(S, I, beta, t, plt_title, spikes = None, fig_name='S-I-beta-plot.png'):
     fig, axes = plt.subplots(3, 1, figsize=(9, 7), sharex=True, sharey=False)
     markers = ['-', '-', '-', '-']  # ['-', '-.', ':']
-    colors = [('r', 0.9), ('g', 0.9), ('b', 0.6), ('orange', 0.9)]
+    colors = [('b', 0.9), ('#009900', 0.7), ('#9ACD32', 0.8)]
     for i, key in enumerate(S.keys()):
         axes[0].plot(t, S[key], markers[i], color=colors[i][0], alpha=colors[i][1], lw=2.5, label=key)
         axes[1].plot(t, I[key], markers[i], color=colors[i][0], alpha=colors[i][1], lw=2.5)
         axes[2].plot(t, beta[key], markers[i], color=colors[i][0], alpha=colors[i][1], lw=2.5, label=key)
-    axes[0].legend(fontsize = 18, frameon = False)
+    axes[0].legend(fontsize = 20, frameon = False)
 #     axes[2].set_title(r'Transmission rate ($\beta$)', fontsize = 14)
     axes[2].set_xlabel('Time (days)', fontsize = 18)
     axes[2].set_ylim(0.0, 1.1)
     axes[1].axhline(y = 150000, linestyle = '--', lw = 2, color = 'black', alpha = 0.5, label = r"$I^{target}_{avg}$")
-    axes[1].legend(fontsize = 18, loc = 'upper right', numpoints = 2, frameon=False)
-    axes[0].set_ylabel('S', fontsize = 18, rotation = 0, labelpad = 15, weight = 'bold')
-    axes[1].set_ylabel('I', fontsize = 18, rotation = 0, labelpad = 30, weight = 'bold')
-    axes[2].set_ylabel(r'$\beta$', fontsize = 18, rotation = 0, labelpad = 15, weight = 'bold')
+    axes[1].legend(fontsize = 20, loc = 'upper right', numpoints = 2, frameon=False)
+    axes[0].set_ylabel('S', fontsize = 20, rotation = 0, labelpad = 15, weight = 'bold')
+    axes[1].set_ylabel('I', fontsize = 20, rotation = 0, labelpad = 30, weight = 'bold')
+    axes[2].set_ylabel(r'$\beta$', fontsize = 20, rotation = 0, labelpad = 15, weight = 'bold')
 #     axes[0].set_title('Susceptible (S)', fontsize = 14)
 #     axes[1].set_title('Infectious (I)', fontsize = 14)
     axes[1].ticklabel_format(style='sci', axis='y', scilimits=(0,0))
     axes[0].ticklabel_format(style='sci')
     axes[2].ticklabel_format(style='plain')
-    axes[1].tick_params(axis="y", labelsize=18)
-    axes[0].tick_params(axis="y", labelsize=18)
-    axes[2].tick_params(axis="y", labelsize=18)
+    axes[1].tick_params(axis="y", labelsize=28)
+    axes[0].tick_params(axis="y", labelsize=28)
+    axes[2].tick_params(axis="y", labelsize=28)
     for ax in axes:
         ax.grid(linestyle='dashdot', linewidth=0.5)
 #     handles, labels = axes[2].get_legend_handles_labels()
@@ -499,8 +499,50 @@ def plot_S_I_beta(S, I, beta, t, plt_title, spikes = None, fig_name='S-I-beta-pl
             axes[1].axvline(x = t, linestyle = '--', lw = 1, color = 'black', alpha = 0.5)
             axes[2].axvline(x = t, linestyle = '--', lw = 1, color = 'black', alpha = 0.5)
 #     plt.title(plt_title)
-    axes[1].annotate(r"$\uparrow$", (spikes[0][0], 4e+5), fontsize = 18)
-    axes[1].annotate(r"$\downarrow$" , (spikes[1][0], 4e+5), fontsize = 18)
+    axes[1].annotate(r"$\uparrow$ spike", (spikes[0][0], 4e+5), fontsize = 18)
+    axes[1].annotate(r"$\downarrow dip$" , (spikes[1][0], 4e+5), fontsize = 18)
+#     axes[1].annotate(r"$I^{target}_{avg}$" , (180, 2e+5), fontsize = 18)
+    plt.xticks(fontsize=18)
+    plt.savefig(fig_name)
+    
+    
+    
+def plot_I_beta(I, beta, t, plt_title, spikes = None, fig_name='S-I-beta-plot.png'):
+    fig, axes = plt.subplots(2, 1, figsize=(9, 7), sharex=True, sharey=False)
+    markers = ['-', '-', '-', '-']  # ['-', '-.', ':']
+    colors = [('b', 0.9), ('#009900', 0.7), ('#9ACD32', 0.8)]
+    for i, key in enumerate(I.keys()):
+        axes[0].plot(t, I[key], markers[i], color=colors[i][0], alpha=colors[i][1], lw=2.5, label=key)
+        axes[1].plot(t, beta[key], markers[i], color=colors[i][0], alpha=colors[i][1], lw=2.5, label=key)
+#     axes[1].legend(fontsize = 20, frameon = False)
+#     axes[2].set_title(r'Transmission rate ($\beta$)', fontsize = 14)
+    axes[1].set_xlabel('Time (days)', fontsize = 18)
+    axes[1].set_ylim(0.0, 1.1)
+    axes[0].axhline(y = 150000, linestyle = '--', lw = 2, color = 'black', alpha = 0.5, label = r"$I^{target}_{avg}$")
+    axes[1].legend(fontsize = 18, loc = 'upper left', numpoints = 2, frameon=False)
+    axes[0].set_ylabel('S', fontsize = 20, rotation = 0, labelpad = 15, weight = 'bold')
+    axes[0].set_ylabel('I', fontsize = 20, rotation = 0, labelpad = 20, weight = 'bold')
+    axes[1].set_ylabel(r'$\beta$', fontsize = 20, rotation = 0, labelpad = 15, weight = 'bold')
+#     axes[0].set_title('Susceptible (S)', fontsize = 14)
+#     axes[1].set_title('Infectious (I)', fontsize = 14)
+    axes[0].ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+    axes[0].ticklabel_format(style='sci')
+    axes[1].ticklabel_format(style='plain')
+    axes[0].tick_params(axis="y", labelsize=28)
+    axes[0].tick_params(axis="y", labelsize=28)
+    axes[1].tick_params(axis="y", labelsize=28)
+    for ax in axes:
+        ax.grid(linestyle='dashdot', linewidth=0.5)
+#     handles, labels = axes[2].get_legend_handles_labels()
+#     fig.legend(handles, labels, loc='upper left')
+#     fig.tight_layout()
+    if(spikes):
+        for t, s in spikes:
+            axes[0].axvline(x = t, linestyle = '--', lw = 1, color = 'black', alpha = 0.5)
+            axes[1].axvline(x = t, linestyle = '--', lw = 1, color = 'black', alpha = 0.5)
+#     plt.title(plt_title)
+    axes[0].annotate(r"$\uparrow$ spike", (spikes[0][0], 4e+5), fontsize = 18)
+    axes[0].annotate(r"$\downarrow dip$" , (spikes[1][0], 4e+5), fontsize = 18)
 #     axes[1].annotate(r"$I^{target}_{avg}$" , (180, 2e+5), fontsize = 18)
     plt.xticks(fontsize=18)
     plt.savefig(fig_name)
