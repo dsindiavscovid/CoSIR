@@ -17,7 +17,7 @@ The code for our paper **CoSIR: Managing an Epidemic via Optimal Adaptive Contro
 1. *models.py*: The epidemilogical model equations
 2. *solvers.py*: Discrete and continuous solvers for the epidemilogical given inital conditions
 3. *plots.py*: The scripts to create plots presented in the paper
-4. *createPlots.ipynb*: Wrapper notebook and contains the parameters used to generate plots
+4. *createPlots.ipynb*: Wrapper notebook and contains the parameters used to generate simulation plots
 5. *baselines.ipynb*: Evaluates CoSIR against other baselines.
 
 
